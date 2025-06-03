@@ -1,4 +1,4 @@
-# agent-hack
+# agents-hack
 
 A minimal code agent with sandboxed file operations.
 
