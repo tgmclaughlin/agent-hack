@@ -1,6 +1,6 @@
-# agents-hack
+# agent-hack
 
-A minimal code agent with sandboxed file operations.
+The simplest possible agent: LLM + Tools + Loop
 
 ## Setup
 
