@@ -12,11 +12,11 @@ Start with an agent that can only READ files. Use it to teach yourself how to ad
 1. Install uv: `curl -LsSf https://astral.sh/uv/install.sh | sh`
 2. Install dependencies: `uv sync`
 3. Copy `.env.example` to `.env` and add your Anthropic API key
-4. Run: `uv run python agent.py`
+4. Run: `uv run agent.py`
 
 ## Stage 1: READ Only (What you start with)
 ```bash
-uv run python agent.py
+uv run agent.py
 ```
 
 Your first conversation:
