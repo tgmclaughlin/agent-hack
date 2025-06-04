@@ -1,11 +1,9 @@
 """
-What is an agent? Just 3 things:
+Bootstrap Challenge: Start with only READ, build up to full agent
 
-1. An LLM that can output function calls (not just text)
-2. Functions (tools) that execute when the LLM calls them
-3. A loop that feeds results back to the LLM
-
-That's it. The LLM is in control, deciding what to do next.
+Stage 1: READ only - Agent can examine code but not modify
+Stage 2: Get agent to write the function for you that can write to files - you'll need to manually add it
+Stage 3: Agent uses READ+WRITE to add SHELL itself
 """
 
 import asyncio
@@ -15,10 +13,7 @@ import agents
 import openai
 
 
-# These are tools - just regular Python functions
-# The LLM can call these by outputting structured JSON
-
-
+# Stage 1: Start with ONLY read tool
 @agents.tool.function_tool
 def read(filename: str):
     """Read a file."""
@@ -27,29 +22,15 @@ def read(filename: str):
         return f.read()
 
 
-@agents.tool.function_tool
-def write(filename: str, content: str):
-    """Write to a file."""
-    print(f"\n✍️  Writing: {filename}")
-    with open(filename, "w") as f:
-        f.write(content)
-    return "Done"
+# Stage 2: Write tool will be added here by user after agent provides code
 
 
-@agents.tool.function_tool
-def bash(command: str):
-    """Run a shell command."""
-    print(f"\n💻 Running: {command}")
-    import subprocess
-
-    result = subprocess.run(command, shell=True, capture_output=True, text=True)
-    return result.stdout or result.stderr
+# Stage 3: Shell tool will be added here by agent itself using write
 
 
 async def main():
     load_dotenv()
 
-    # 1. Create an LLM client
     llm = agents.OpenAIChatCompletionsModel(
         "claude-sonnet-4-20250514",
         openai.AsyncOpenAI(
@@ -58,33 +39,30 @@ async def main():
         ),
     )
 
-    # 2. Create an agent (LLM + tools)
     agent = agents.Agent(
-        name="claude_code",
+        name="bootstrap_agent",
         instructions="You help with coding tasks.",
         model=llm,
-        tools=[read, write, bash],  # <-- The LLM can call these
+        tools=[read],  # Starting with just read!
     )
 
-    # 3. The loop: User → LLM → Tools → LLM → User
     messages = []
 
+    print("\n🔨 BOOTSTRAP CHALLENGE")
+    print("Stage 1: You have only READ. Ask me to read agent.py to learn the pattern.")
+    print("Stage 2: I'll tell you what code to add for WRITE.")
+    print("Stage 3: Together we'll add SHELL using our new powers!\n")
+
     while True:
-        # User input
         user_input = input("\n> ")
         if user_input == "exit":
             break
 
         messages.append({"role": "user", "content": user_input})
 
-        # LLM decides: respond with text OR call a tool
         print("", end="", flush=True)
         response = ""
 
-        # This is where the magic happens:
-        # - LLM might output text (shown to user)
-        # - LLM might output tool calls (executed automatically)
-        # - Results go back to LLM, which can call more tools or respond
         async for event in agents.Runner.run_streamed(
             agent, messages, max_turns=10
         ).stream_events():
@@ -100,6 +78,4 @@ async def main():
 
 if __name__ == "__main__":
     agents.set_tracing_disabled(True)
-    print("🤖 Agent = LLM + Tools + Loop")
-    print("Try: 'write a file called test.txt with hello world'")
     asyncio.run(main())
