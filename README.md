@@ -1,3 +1,5 @@
+![agents](agents.jpg)
+
 # agent-hack
 
 The simplest possible agent: LLM + Tools + Loop
