@@ -23,6 +23,13 @@ def read(filename: str):
 
 
 # Stage 2: Write tool will be added here by user after agent provides code
+@agents.tool.function_tool
+def write(filename: str, text: str):
+    """Write text to a file."""
+    print(f"\n✏️ Writing: {filename}")
+    with open(filename, "w") as f:
+        f.write(text)
+    return "Wrote to file."
 
 
 # Stage 3: Shell tool will be added here by agent itself using write
@@ -43,7 +50,7 @@ async def main():
         name="bootstrap_agent",
         instructions="You help with coding tasks.",
         model=llm,
-        tools=[read],  # Starting with just read!
+        tools=[read, write],  # Starting with read, we added write!
     )
 
     messages = []
