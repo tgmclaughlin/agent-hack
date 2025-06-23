@@ -20,6 +20,7 @@ def read(filename: str):
     print(f"\n📖 Reading: {filename}")
     with open(filename) as f:
         return f.read()
+    return None
 
 
 # Stage 2: Write tool will be added here by user after agent provides code

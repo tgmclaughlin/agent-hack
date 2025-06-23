@@ -11,10 +11,19 @@ Start with an agent that can only READ files. Use it to teach yourself how to ad
 
 ## Setup
 
-1. Install uv: `curl -LsSf https://astral.sh/uv/install.sh | sh`
-2. Install dependencies: `uv sync`
-3. Copy `.env.example` to `.env` and add your Anthropic API key
-4. Run: `uv run agent.py`
+1. Install uv: 
+   ```bash
+   curl -LsSf https://astral.sh/uv/install.sh | sh
+   ```
+2. Create `.env` file: 
+   ```bash
+   echo "ANTHROPIC_API_KEY=your-api-key-here" > .env
+   ```
+3. Paste in your actual Anthropic API key
+4. Run: 
+   ```bash
+   uv run agent.py
+   ```
 
 ## Stage 1: READ Only (What you start with)
 ```bash
@@ -55,4 +64,4 @@ Once you have all three tools:
 - Use it as a CLI tool 
 
 ## The Meta Lesson
-You're using an AI agent to help you build an AI agent. This is how real development works - we use tools to build better tools!
+You're using an AI agent to help you build an AI agent. This is how development works - we use tools to build better tools!
