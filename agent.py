@@ -33,7 +33,7 @@ async def main():
     load_dotenv()
 
     llm = agents.OpenAIChatCompletionsModel(
-        "claude-sonnet-4-20250514",
+        "claude-sonnet-4-5-20250929",
         openai.AsyncOpenAI(
             api_key=os.getenv("ANTHROPIC_API_KEY"),
             base_url="https://api.anthropic.com/v1/",

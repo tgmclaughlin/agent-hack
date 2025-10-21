@@ -14,6 +14,7 @@ uv.lock
 
 # IDE configurations
 .idea/
+.ropeproject/
 
 # Environment variables
 .env
